@@ -1,7 +1,7 @@
 # Proyecto Backend - Sistema de Gestión de Biblioteca
 
 ## Información del Alumno
-- Nombre y Apellido: [Completar]
+- Nombre y Apellido: Felipe Verri
 - Curso: 5to Año
 - Especialidad: Informática
 
@@ -80,9 +80,9 @@ GET    /libros/buscar    # Buscar libros (parámetros: titulo, autor, categoria)
 
 ### Milestones Fase 1
 1. Configuración Inicial
-   - [ ] Configurar el proyecto base
-   - [ ] Implementar la conexión a la base de datos
-   - [ ] Crear el modelo de libros
+   - [x] Configurar el proyecto base
+   - [x] Implementar la conexión a la base de datos
+   - [x] Crear el modelo de libros
 
 2. CRUD Básico
    - [ ] Implementar endpoints para libros

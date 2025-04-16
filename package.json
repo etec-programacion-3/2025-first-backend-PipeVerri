@@ -1,0 +1,25 @@
+{
+  "name": "2025-first-backend-pipeverri",
+  "version": "1.0.0",
+  "description": "- Nombre y Apellido: [Completar] - Curso: 5to Año - Especialidad: Informática",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etec-programacion-3/2025-first-backend-PipeVerri.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/etec-programacion-3/2025-first-backend-PipeVerri/issues"
+  },
+  "homepage": "https://github.com/etec-programacion-3/2025-first-backend-PipeVerri#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "sequelize": "^6.37.7"
+  }
+}
