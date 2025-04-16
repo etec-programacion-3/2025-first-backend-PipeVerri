@@ -82,7 +82,7 @@ GET    /libros/buscar    # Buscar libros (parámetros: titulo, autor, categoria)
 1. Configuración Inicial
    - [x] Configurar el proyecto base
    - [x] Implementar la conexión a la base de datos
-   - [xgi] Crear el modelo de libros
+   - [x] Crear el modelo de libros
 
 2. CRUD Básico
    - [ ] Implementar endpoints para libros
