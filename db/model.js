@@ -38,7 +38,7 @@ const Libro = Database.define('Libro', {
       defaultValue: DataTypes.NOW
     }
   }, {
-    timestamps: false // Desactivar los timestamps automáticos
+    timestamps: true // Activar los timestamps automáticos
   });
 
 module.exports = Libro;
