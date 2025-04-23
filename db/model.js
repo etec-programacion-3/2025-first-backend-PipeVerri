@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const Database = new Sequelize({
     dialect: 'sqlite',
@@ -38,7 +38,7 @@ const Libro = Database.define('Libro', {
       defaultValue: DataTypes.NOW
     }
   }, {
-    timestamps: false // Desactivar los timestamps automáticos
+    timestamps: true // Activar los timestamps automáticos
   });
 
-module.exports = Libro;
+module.exports = {Libro, Database};

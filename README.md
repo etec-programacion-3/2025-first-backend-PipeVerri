@@ -85,9 +85,9 @@ GET    /libros/buscar    # Buscar libros (parámetros: titulo, autor, categoria)
    - [x] Crear el modelo de libros
 
 2. CRUD Básico
-   - [ ] Implementar endpoints para libros
-   - [ ] Implementar validación de datos
-   - [ ] Documentar los endpoints
+   - [x] Implementar endpoints para libros
+   - [x] Implementar validación de datos
+   - [x] Documentar los endpoints
 
 3. Búsqueda y Filtrado
    - [ ] Implementar búsqueda por título

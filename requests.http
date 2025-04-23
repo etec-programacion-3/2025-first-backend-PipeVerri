@@ -1,0 +1,67 @@
+### Obtener todos los libros
+GET http://localhost:3000/libros
+Content-Type: application/json
+
+###
+
+### Obtener libro por ID
+GET http://localhost:3000/libros/10
+Content-Type: application/json
+
+###
+
+### Crear un libro nuevo
+POST http://localhost:3000/libros
+Content-Type: application/json
+
+{
+  "id": 10,
+  "titulo": "Cien Años de Soledad",
+  "autor": "Gabriel García Márquez",
+  "isbn": "9780307474728",
+  "categoria": "Novela",
+  "estado": "Disponible"
+}
+
+###
+
+### Actualizar un libro existente
+PUT http://localhost:3000/libros/10
+Content-Type: application/json
+
+{
+  "estado": "Disponible"
+}
+
+###
+
+### Eliminar un libro
+DELETE http://localhost:3000/libros/10
+Content-Type: application/json
+
+###
+
+### Buscar libros (condiciones OR por defecto)
+POST http://localhost:3000/libros/search
+Content-Type: application/json
+
+{
+  "query": {
+    "titulo": "Soledad",
+    "autor": "García"
+  }
+}
+
+###
+
+### Buscar libros (condiciones AND si exclusivo: true)
+POST http://localhost:3000/libros/search
+Content-Type: application/json
+
+{
+  "query": {
+    "titulo": "Soledad",
+    "autor": "García",
+    "exclusivo": true
+  }
+}
