@@ -1,8 +1,39 @@
 const { Libro } = require('./model');
-const { Op } = require('sequelize');
+const { Op, or } = require('sequelize');
+
+function parsing(data, req) {
+    let newData = data
+    // Ordenamiento
+    let factor
+    if (req.query.orden) {
+        factor = req.query.orden
+        if (factor !== "titulo" && factor !== "autor" && factor !== "isbn" && factor !== "categoria" && factor !== "estado") {
+            return data;
+        }
+    }
+
+    console.log(factor)
+
+    newData = data.sort((a, b) => {
+        if (a[factor] < b[factor]) {
+            return -1;
+        }
+        if (a[factor] > b[factor]) {
+            return 1;
+        }
+        return 0;
+    })
+
+    // Paginacion
+    const page = Number(req.query.pagina) || 0
+    const num = Number(req.query.limite) || null
+    if (!num) return newData
+
+    return newData.slice(page * num, page * num + num); // Retorna un array vacio si hay algo mal en los parametros metidos
+}
 
 function validate(data, allData = false) {
-    const { titulo, autor, isbn, categoria, estado } = data;
+    const { titulo, autor, isbn, categoria, estado, orden } = data;
     let errors = "";
 
     if (allData) {
@@ -25,7 +56,7 @@ function validate(data, allData = false) {
 async function getAll(req, res) {
     try {
         const data = await Libro.findAll();
-        res.status(200).json(data);
+        res.status(200).json(parsing(data, req));
     } catch (error) {
         console.error("Error fetching data:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -47,33 +78,38 @@ async function getById(req, res) {
 }
 
 async function create(req, res) {
-    // Validate all required fields
-    const errors = validate(req.body, true);
-    if (errors) {
-        return res.status(400).json({ error: errors });
-    }
-
-    // Check if an 'id' is provided and if it is unique
-    if (req.body.id) {
-        try {
-            const existingLibro = await Libro.findByPk(req.body.id);
-            if (existingLibro) {
-                return res.status(400).json({ error: "El id ya existe. Por favor, usa un id único." });
-            }
-        } catch (checkError) {
-            console.error("Error checking id uniqueness:", checkError);
-            return res.status(500).json({ error: "Internal Server Error" });
-        }
-    }
-
     try {
-        await Libro.create(req.body);
-        res.status(200).json({ status: "ok" });
-    } catch (e) {
-        console.error("Error creating data:", e);
-        res.status(500).json({ error: "Internal Server Error" });
+      // Validación básica de campos
+      const fieldErrors = validate(req.body, true);
+      if (fieldErrors.length) {
+        return res.status(400).json({ errors: fieldErrors });
+      }
+  
+      const { id, isbn } = req.body;
+  
+      // Verificar si el ID ya existe
+      if (id) {
+        const existsById = await Libro.findByPk(id);
+        if (existsById) {
+          return res.status(400).json({ errors: ['El ID ya existe. Usa un ID único.'] });
+        }
+      }
+  
+      // Verificar si el ISBN ya existe
+      const existsByIsbn = await Libro.findOne({ where: { isbn } });
+      if (existsByIsbn) {
+        return res.status(400).json({ errors: ['El ISBN ya está registrado. Debe ser único.'] });
+      }
+  
+      // Crear registro
+      const nuevo = await Libro.create(req.body);
+      return res.status(201).json(nuevo);
+  
+    } catch (err) {
+      console.error('Error creando libro:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+  }
 
 async function update(req, res) {
     // Validate provided data (partial allowed)
@@ -112,20 +148,22 @@ async function remove(req, res) {
 
 async function search(req, res) {
     // Validate the search query object; since it's used for filtering, allow partial fields
-    const errors = validate(req.body.query, false);
+    const errors = validate(req.query, false);
     if (errors) {
         return res.status(400).json({ error: errors });
     }
     try {
-        const { titulo, autor, categoria, exclusivo } = req.body.query;
+        const { titulo, autor, categoria, exclusivo, isbn, estado } = req.query;
         const conditions = [];
 
         if (titulo) conditions.push({ titulo: { [Op.like]: `%${titulo}%` } });
         if (autor) conditions.push({ autor: { [Op.like]: `%${autor}%` } });
         if (categoria) conditions.push({ categoria: { [Op.like]: `%${categoria}%` } });
+        if (isbn) conditions.push({ isbn: { [Op.like]: `%${isbn}%` } });
+        if (estado) conditions.push({ estado: { [Op.like]: `%${estado}%` } });
 
         let libros = [];
-        if (exclusivo) {
+        if (exclusivo === "true") {
             libros = await Libro.findAll({ where: { [Op.and]: conditions } });
         } else {
             libros = await Libro.findAll({ where: { [Op.or]: conditions } });
@@ -134,7 +172,7 @@ async function search(req, res) {
         if (libros.length === 0) {
             res.status(404).json({ error: "No se encontraron libros" });
         } else {
-            res.status(200).json(libros);
+            res.status(200).json(parsing(libros, req));
         }
     } catch (e) {
         console.error("Error searching data:", e);
