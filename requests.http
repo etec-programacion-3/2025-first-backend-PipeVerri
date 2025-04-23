@@ -2,13 +2,9 @@
 GET http://localhost:3000/libros
 Content-Type: application/json
 
-###
-
 ### Obtener libro por ID
-GET http://localhost:3000/libros/10
+GET http://localhost:3000/libros/1
 Content-Type: application/json
-
-###
 
 ### Crear un libro nuevo
 POST http://localhost:3000/libros
@@ -23,23 +19,17 @@ Content-Type: application/json
   "estado": "Disponible"
 }
 
-###
-
 ### Actualizar un libro existente
-PUT http://localhost:3000/libros/10
+PUT http://localhost:3000/libros/1
 Content-Type: application/json
 
 {
-  "estado": "Disponible"
+  "estado": "Prestado"
 }
 
-###
-
 ### Eliminar un libro
-DELETE http://localhost:3000/libros/10
+DELETE http://localhost:3000/libros/1
 Content-Type: application/json
-
-###
 
 ### Buscar libros (condiciones OR por defecto)
 POST http://localhost:3000/libros/search
@@ -52,16 +42,8 @@ Content-Type: application/json
   }
 }
 
-###
+### Buscar un libro (solo los que cumplan con todas las condiciones)
+GET http://localhost:3000/libros/buscar?&titulo=Cien Años de Soledad&autor=Gabriel García Márquez&exclusivo=true
 
-### Buscar libros (condiciones AND si exclusivo: true)
-POST http://localhost:3000/libros/search
-Content-Type: application/json
-
-{
-  "query": {
-    "titulo": "Soledad",
-    "autor": "García",
-    "exclusivo": true
-  }
-}
+### Buscar un libro (cualquiera que cumpla con alguna de las condiciones)
+GET http://localhost:3000/libros/buscar?&titulo=Cien Años de Soledad&autor=Gabriel García Márquez&estado=Disponible
