@@ -90,10 +90,10 @@ GET    /libros/buscar    # Buscar libros (parámetros: titulo, autor, categoria)
    - [x] Documentar los endpoints
 
 3. Búsqueda y Filtrado
-   - [ ] Implementar búsqueda por título
-   - [ ] Implementar filtrado por categoría
-   - [ ] Implementar ordenamiento
-   - [ ] Implementar paginación
+   - [x] Implementar búsqueda por título
+   - [x] Implementar filtrado por categoría
+   - [x] Implementar ordenamiento
+   - [x] Implementar paginación
 
 ## Fase 2: Gestión de Usuarios
 

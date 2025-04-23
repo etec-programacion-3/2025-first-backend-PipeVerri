@@ -11,10 +11,9 @@ POST http://localhost:3000/libros
 Content-Type: application/json
 
 {
-  "id": 10,
   "titulo": "Cien Años de Soledad",
   "autor": "Gabriel García Márquez",
-  "isbn": "9780307474728",
+  "isbn": "9780307474528",
   "categoria": "Novela",
   "estado": "Disponible"
 }
