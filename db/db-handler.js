@@ -1,4 +1,4 @@
-const Libro = require('./model');
+const { Libro } = require('./model');
 const { Op } = require('sequelize');
 
 function validate(data, allData = false) {

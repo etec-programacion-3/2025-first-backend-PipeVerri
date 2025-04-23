@@ -11,6 +11,7 @@ const {
   remove,
   search
 } = require('./db/db-handler');
+const { Database } = require('./db/model');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -33,6 +34,17 @@ app.put('/libros/:id', update);
 
 // Eliminar un libro (parámetro: id)
 app.delete('/libros/:id', remove);
+
+// Inicializar si no existe y sincronizar la base de datos
+Database.sync({ alter: true })   // con `alter: true` Sequelize ajusta tablas sin borrarlas
+  .then(() => {
+    console.log('✅ Base de datos sincronizada');
+    app.listen(3000, () => console.log('Server is listening on port 3000'));
+  })
+  .catch(err => {
+    console.error('❌ Error al sincronizar la base de datos:', err);
+  });
+
 
 // Start the server
 app.listen(port, () => {
