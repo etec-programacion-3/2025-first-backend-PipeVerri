@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+const cors = require('cors');
 
 // Import the controller functions
 const {
@@ -15,7 +16,7 @@ const { Database } = require('./db/model');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
+app.use(cors()); // Enable CORS for all routes
 
 // Buscar libros (parámetros: titulo, autor, categoria)
 app.get('/libros/buscar', search);

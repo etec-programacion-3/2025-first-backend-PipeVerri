@@ -31,17 +31,6 @@ Content-Type: application/json
 DELETE http://localhost:3000/libros/1
 Content-Type: application/json
 
-### Buscar libros (condiciones OR por defecto)
-POST http://localhost:3000/libros/search
-Content-Type: application/json
-
-{
-  "query": {
-    "titulo": "Soledad",
-    "autor": "García"
-  }
-}
-
 ### Buscar un libro (solo los que cumplan con todas las condiciones)
 GET http://localhost:3000/libros/buscar?&titulo=Cien Años de Soledad&autor=Gabriel García Márquez&exclusivo=true
 
